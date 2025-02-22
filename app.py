@@ -19,7 +19,14 @@ user_arg = reqparse.RequestParser()
 user_arg.add_argument('name', type=str, required=True, help="Name cannot be blank")
 user_arg.add_argument('email', type=str, required=True, help="Email cannot be blank")
 
+userFields = {
+    'id': fields.Integer,
+    'name': fields.String,
+    'email': fields.String
+}
+
 class Users(Resource):
+    @marshal_with(userFields)
     def get(self):
         users = UserModel.query.all()
         return users
