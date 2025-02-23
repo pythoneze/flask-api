@@ -31,6 +31,16 @@ class Users(Resource):
         users = UserModel.query.all()
         return users
 
+    @marshal_with(userFields)
+    def post(self):
+        args = user_arg.parse_args()
+        user = UserModel(name=args['name'], email=args['email'])
+        db.session.add(user)
+        db.session.commit()
+        users = UserModel.query.all()
+        return users, 201
+
+
 api.add_resource(Users, '/api/users/')
 
 @app.route("/")
